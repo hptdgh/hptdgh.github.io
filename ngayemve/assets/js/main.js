@@ -38,5 +38,5 @@ function initializeClock(id, endtime) {
   var timeinterval = setInterval(updateClock, 1000);
 }
 //THIS IS WHERE YOU SET THE DESIRED DATE AND TIME!
-var deadline = 'Dec 16 2025 18:00:00 GMT+0700';//CHANGE THE DATE AND TIME HERE, STRICTLY IN THIS FORMAT
+var deadline = 'Dec 16 2022 18:00:00 GMT+0700';//CHANGE THE DATE AND TIME HERE, STRICTLY IN THIS FORMAT
 initializeClock('clockdiv', deadline);
