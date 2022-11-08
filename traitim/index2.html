@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Dương Gia Hân ❤</title>
+</head>
+<body style="background: black;">
+	<style type="text/css">
+		.heart div {
+	background: red;
+	width: 71px;
+	height: 126px;
+	top: 40px;
+	display: block;
+	position: absolute;
+	border-radius: 50%
+}
+
+.left {
+	left: 45px;
+}
+
+.right{
+	right: 45px;
+}
+.heart {
+	width: 200px;
+	height: 200px;
+	top: 50%;
+	left: 50%;
+	z-index: 1;
+	display: block;
+	position: absolute;
+	transform: translate(-50%,-50%)
+}
+
+.heart div {
+	background: #ff0000;
+	width: 71px;
+	height: 126px;
+	top: 40px;
+	display: block;
+	position: absolute;
+	border-radius: 50%
+}
+
+.left {
+	left: 45px;
+	transform: rotate(330deg);
+}
+
+.right {
+	right: 45px;
+	transform: rotate(30deg);
+}
+.heart {
+	width: 200px;
+	height: 200px;
+	top: 50%;
+	left: 50%;
+	z-index: 1;
+	display: block;
+	position: absolute;
+	transform: translate(-50%,-50%);
+	animation: heart 1s ease infinite
+}
+
+@keyframes heart {
+	96% {
+		transform: translate(-50%,-50%) scale(.8,.8)
+	}
+	100% {
+		transform: translate(-50%,-50%) scale(1,1)
+	}
+}
+
+.heart div {
+	background: #ff0000;
+	width: 71px;
+	height: 126px;
+	top: 40px;
+	display: block;
+	position: absolute;
+	border-radius: 50%
+	}
+
+.left {
+	left: 45px;
+	transform: rotate(330deg);
+}
+
+.right {
+	right: 45px;
+	transform: rotate(30deg);
+}
+
+	</style>
+	<div class="heart">
+  <div class="left"></div> 
+  <div class="right"></div> 
+</div>
+</body>
+</html>
