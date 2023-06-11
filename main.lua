@@ -1731,3 +1731,4 @@ else
 	local body = request(sever.."/getlistacc.php?key="..key.."&action=getlist&update=DONERUN&number="..sttacc) --update trạng thái Sleep lên sever khi đã chạy hết list acc
 end
 --]]
+-- Finish
