@@ -1364,22 +1364,29 @@ function InputTextDelay(a)
 	    usleep(40000)
 	end
 end
-function FindGroup()
-	local myTable = { '410', '590', '680','770','860','1256','1160'}
+function FindGroup(toadox1,toadoy1,toadox2,toadoy2)
+	local myTable = { '410', '590', '680','770','860'}
 	local rancamxuc = tonumber(myTable[ math.random( #myTable ) ])
-	local startX = 53
-	local startY = rancamxuc
-	local endX = 53
-	local endY = 1160
+	local startX = tonumber(toadox1)
+	local startY = tonumber(toadoy1) + 50
+	local endX = tonumber(toadox2) 
+	local endY = tonumber(toadoy2)
 	for x = startX, endX do
 	  for y = startY, endY do
 	    -- Lấy mã màu tại tọa độ (x, y)
 	    local color = getColor(x, y)
-	    if color ~= 16777215 then
+	    if color ~= 16777215 and color ~= 13731705 then
 	      toast("Tìm thấy tọa độ khác: (" .. x .. ", " .. y .. ")",1)
 	      return x.."|"..y
 	    end
 	  end
+	end
+end
+function FindToaDoIMG(img) -- tìm hình và click
+	local img = findImage("/var/mobile/Library/AutoTouch/Scripts/facebook/img/"..img, 1, 0.99, nil)
+	for i, v in pairs(img) do
+		--tap(v[1], v[2])
+		return v[1].."|"..v[2]
 	end
 end
 function checkgroup(noidungchiase)
@@ -1394,15 +1401,47 @@ function checkgroup(noidungchiase)
 	local checkGroup = getColor(49,870);
 
 		if (checkGroup ~= 16777215) then
-			::back::
-			local rand = math.random(0,6)
+			local rand = math.random(0,2)
 			for i=1,rand do
 				keoxuong(16000)
 			end
-			local findgroup = FindGroup()
+			local solancheck = 0
+			local toadofindgroup = FindToaDoIMG("findgrshare.png")
+			local toadochuQ = FindToaDoIMG("q_group.png")
+			local toadochuQx2
+			local toadochuQy2
+			if (toadochuQ ~= nil) then 
+				local b = splitString(toadochuQ,"|")
+				 toadochuQx2 = tonumber(b[1]) + 15
+				 toadochuQy2 = tonumber(b[2]) + 40
+			else
+			 toadochuQx2 = 950
+			 toadochuQy2 = 950
+			end	
+			local a = splitString(toadofindgroup,"|")
+			toadokinhx1 = tonumber(a[1]) + 15
+			toadokinhy1 = tonumber(a[2]) + 40
+			::back::
+			local findgroup = FindGroup(toadokinhx1,toadokinhy1,toadochuQx2,toadochuQy2)
 			usleep(500000)
+			if (solancheck > 2) then 
+				tap(49,870)
+				usleep(1500000)
+				tapimg('saygroup.png',1,100000)
+					usleep(1500000)
+					InputTextDelay(rannoidungchiase)
+					usleep(100000)
+					tapimg('shareIDnow.png',1,10000)
+					usleep(3500000)
+					return
+			end
 			local toadotapgroup =  splitString(findgroup,"|")
+			if toadotapgroup ~= nil then
 			tap(toadotapgroup[1],toadotapgroup[2])
+			else
+			toast("không find được quay về tọa độ mặt định",1)	
+			tap(49,897)
+			end
 				usleep(2000000)
 				local checktapgroupok = checkImg("shareIDnow.png")
 				if(checktapgroupok == 1) then
@@ -1414,6 +1453,9 @@ function checkgroup(noidungchiase)
 					usleep(3500000)
 				else
 					toast("Tọa độ click không select được Gr",1)
+					solancheck = solancheck + 1
+					tapimg('buttonsharetoagroup.png',1,10000)
+					usleep(2000000)
 					goto back
 				end
 	else
@@ -1433,6 +1475,8 @@ local a =  getColor(49,673)
 
 alert(a)
 stop()--]]--]]
+--[[local a = getColor(50,812)
+alert (a)--]]
 --- Kiểm tra dừng tools --
 ::startcheckstop2::
 sttcheck = 0
@@ -1730,5 +1774,4 @@ goto hihi
 else
 	local body = request(sever.."/getlistacc.php?key="..key.."&action=getlist&update=DONERUN&number="..sttacc) --update trạng thái Sleep lên sever khi đã chạy hết list acc
 end
---]]
 -- Finish
