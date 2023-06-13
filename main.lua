@@ -1,4 +1,5 @@
--- Version:1.02
+-- Version:1.03
+-- fix join nhóm! lọc ra nhóm ngon mới join
 local key = getSN();
 local sever = 'https://autofbios.app/api'
 function sleepWithToast(x,mess) -- nghỉ có hiện thông báo
@@ -1227,11 +1228,32 @@ function JoinGroupByKeyword(sl,keyword)
 				break 
 				end
 			toast("Đã tham gia "..sldathamgia.."/"..sl.." Group")
-			keoxuong(15000)
 			if (sldathamgia ~= sl) then
-			local test1 = tapimg("buttonjoingroup.png",1,1000000);
+				local check10post =  tapimg("hon10post.png",1,100000)
+				if check10post == 1 then
+				local libraryPath = "/private/var/mobile/Library/AutoTouch/Scripts/facebook/img/maugroup"
+				local imageList = {
+				  "camdam.png",
+				  "honglot.png",
+				  "hongphan.png",
+				  "maucam.png",
+				  "maucamdam.png",
+				  "maudo.png",
+				  "maudolot.png",
+				  "mauhong.png",
+				  "mautim.png",
+				  "mauxanh.png",
+				  "mauxanhla.png",
+				  "mauxanhnhat.png",
+				  "mauxanhnhon.png",
+				  "vangdat.png",
+				  "xanhladam.png",
+				  -- Các hình ảnh khác trong thư viện
+				}
+		local result = tapimgMorGroup(imageList, 1, 500000)
+			--local test1 = tapimg("buttonjoingroup.png",1,1000000);
 			usleep(2000000)
-			if (test1 == 1) then
+			if (result == 1) then
 				usleep(200000)
 				if(sl == sldathamgia) then return end
 				local checkAnswer = checkImg("answerGroup.png")
@@ -1256,12 +1278,24 @@ function JoinGroupByKeyword(sl,keyword)
 					end
 				tapimg("submitjoingroup.png",1,1000)
 				sldathamgia = sldathamgia + 1
-				usleep(1000000)	
+				usleep(1000000)
+				tap(32,90) -- tap nut back	
+				keoxuong(16000)
 				end
 				sldathamgia = sldathamgia + 1
-				usleep(1000000)		
+				usleep(1000000)
+				tap(32,90) -- tap nut back
+				keoxuong(16000)		
+			else
+			toast("Ko tìm thấy nút join hoặc đã join",3)
+			tap(32,90) -- tap nut back
+			keoxuong(15000)	
 			end
+		else
+		keoxuong(15000)	
 		end
+		keoxuong(15000)
+	end
 	until (sldathamgia > sl)
 
 end
@@ -1468,6 +1502,26 @@ function checkgroup(noidungchiase)
 				usleep(3500000)
 	end
 end
+		function tapimgMorGroup(imgList, sl, time)
+		  local tapped = false  -- Biến kiểm tra xem đã tap hay chưa
+		  
+		  for i, imageName in ipairs(imgList) do
+		    local imagePath = "/var/mobile/Library/AutoTouch/Scripts/facebook/img/maugroup/" .. imageName
+		    local img = findImage(imagePath, sl, 0.99, nil)
+		    
+		    for j, v in pairs(img) do
+		      tap(v[1], v[2])
+		      usleep(time)
+		      tapped = true  -- Đánh dấu là đã tap
+		    end
+		  end
+		  
+		  if tapped then
+		    return 1  -- Trả về 1 nếu đã tap ít nhất một hình
+		  else
+		    return 0  -- Trả về 0 nếu không tap hình nào
+		  end
+		end
 --[[tapimg("join.png",1,10000)
 stop()--]]
 --[[tuongtacIDPage(117540492278654,10, 1,"HIHI",1,1,2,1,"<3 <3 <3")
@@ -1478,6 +1532,8 @@ alert(a)
 stop()--]]--]]
 --[[local a = getColor(50,812)
 alert (a)--]]
+JoinGroupByKeyword(2,'Chợ Ninh Thuận')
+				stop()
 --- Kiểm tra dừng tools --
 ::startcheckstop2::
 sttcheck = 0
