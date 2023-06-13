@@ -1,4 +1,4 @@
--- Version:1.02.1
+-- Version:1.023
 local key = getSN();
 local sever = 'https://autofbios.app/api'
 function sleepWithToast(x,mess) -- nghỉ có hiện thông báo
@@ -1205,7 +1205,7 @@ function tuongtac(sever,key)
 end
 
 function JoinGroupByKeyword(sl,keyword)
-	local timeOut = 7
+	local timeOut = 8
 	closeFacebook()
 	usleep(1000000)
 	openURL("fb://feed");
@@ -1217,7 +1217,7 @@ function JoinGroupByKeyword(sl,keyword)
 	tap(650,1292) -- tap button search
 	usleep(1000000)
 	tapimg("groupfind.jpg",1,1000) -- tap tab group
-	usleep(2000000)
+	usleep(3000000)
 	sldathamgia = 0
 	repeat
 		if(sl < sldathamgia) then return end
@@ -1453,8 +1453,13 @@ function checkgroup(noidungchiase)
 			 toadochuQy2 = 950
 			end	
 			local a = splitString(toadofindgroup,"|")
+			if a ~= nil then
 			toadokinhx1 = tonumber(a[1]) + 15
 			toadokinhy1 = tonumber(a[2]) + 40
+			else
+				toast("không tìm thấy nút tìm kím,bị khóa hoặc lổi")
+				return
+			end
 			::back::
 			local findgroup = FindGroup(toadokinhx1,toadokinhy1,toadochuQx2,toadochuQy2)
 			usleep(500000)
@@ -1529,8 +1534,6 @@ local a =  getColor(49,673)
 
 alert(a)
 stop()--]]--]]
---[[local a = getColor(50,812)
-alert (a)--]]
 --- Kiểm tra dừng tools --
 ::startcheckstop2::
 sttcheck = 0
