@@ -1217,7 +1217,7 @@ function JoinGroupByKeyword(sl,keyword)
 	tap(650,1292) -- tap button search
 	usleep(1000000)
 	tapimg("groupfind.jpg",1,1000) -- tap tab group
-	usleep(3000000)
+	usleep(2000000)
 	sldathamgia = 0
 	repeat
 		if(sl < sldathamgia) then return end
@@ -1230,6 +1230,7 @@ function JoinGroupByKeyword(sl,keyword)
 			if (sldathamgia ~= sl) then
 				local check10post =  tapimg("hon10post.png",1,100000)
 				if check10post == 1 then
+				usleep(1000000)
 				local libraryPath = "/private/var/mobile/Library/AutoTouch/Scripts/facebook/img/maugroup"
 				local imageList = {
 				  "camdam.png",
