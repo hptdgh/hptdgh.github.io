@@ -1,5 +1,4 @@
--- Version:1.03
--- fix join nhóm! lọc ra nhóm ngon mới join
+-- Version:1.02.1
 local key = getSN();
 local sever = 'https://autofbios.app/api'
 function sleepWithToast(x,mess) -- nghỉ có hiện thông báo
@@ -1532,8 +1531,6 @@ alert(a)
 stop()--]]--]]
 --[[local a = getColor(50,812)
 alert (a)--]]
-JoinGroupByKeyword(2,'Chợ Ninh Thuận')
-				stop()
 --- Kiểm tra dừng tools --
 ::startcheckstop2::
 sttcheck = 0
