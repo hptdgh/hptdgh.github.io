@@ -1,4 +1,4 @@
--- Version:1.023
+-- Version:1.24
 local key = getSN();
 local sever = 'https://autofbios.app/api'
 function sleepWithToast(x,mess) -- nghỉ có hiện thông báo
@@ -1024,13 +1024,27 @@ function checkfile(file)
 	return 1
 end
 
-function getToalFromSever(sever,key)
-	Gettotal = HTTPGet({ContentType = "application/json"},sever.."/getstatus.php?action=NONE&key="..key)
-	if Gettotal ~= nil then
-			local json = require"json"
-			total = json.decode(Gettotal)["total"]
-			return tonumber(total)
+function getTotalFromServer(server, key)
+	local json = require "json"
+	local total = 0 -- Giá trị mặc định
+	
+	while true do
+		local getTotal = HTTPGet({ContentType = "application/json"}, server .. "/getstatus.php?action=NONE&key=" .. key)
+		
+		if getTotal ~= nil then
+			local decodedData = json.decode(getTotal)
+			
+			if type(decodedData) == "table" and decodedData["total"] ~= nil then
+				total = tonumber(decodedData["total"])
+				return total
+			else
+				toast("Lỗi lấy thông tin từ máy chủ! Reconnect", 1)
+			end
 		end
+		
+		-- Đặt thời gian chờ trước khi thử kết nối lại
+		sleep(1)
+	end
 end
 function Get2FA(key2fa)
 	Get2fa = HTTPGet({ContentType = "application/json"},"https://muaclonefb.com/get-2fa-api/"..key2fa)
@@ -1205,7 +1219,7 @@ function tuongtac(sever,key)
 end
 
 function JoinGroupByKeyword(sl,keyword)
-	local timeOut = 8
+	local timeOut = 7
 	closeFacebook()
 	usleep(1000000)
 	openURL("fb://feed");
@@ -1227,33 +1241,11 @@ function JoinGroupByKeyword(sl,keyword)
 				break 
 				end
 			toast("Đã tham gia "..sldathamgia.."/"..sl.." Group")
+			keoxuong(15000)
 			if (sldathamgia ~= sl) then
-				local check10post =  tapimg("hon10post.png",1,100000)
-				if check10post == 1 then
-				usleep(1000000)
-				local libraryPath = "/private/var/mobile/Library/AutoTouch/Scripts/facebook/img/maugroup"
-				local imageList = {
-				  "camdam.png",
-				  "honglot.png",
-				  "hongphan.png",
-				  "maucam.png",
-				  "maucamdam.png",
-				  "maudo.png",
-				  "maudolot.png",
-				  "mauhong.png",
-				  "mautim.png",
-				  "mauxanh.png",
-				  "mauxanhla.png",
-				  "mauxanhnhat.png",
-				  "mauxanhnhon.png",
-				  "vangdat.png",
-				  "xanhladam.png",
-				  -- Các hình ảnh khác trong thư viện
-				}
-		local result = tapimgMorGroup(imageList, 1, 500000)
-			--local test1 = tapimg("buttonjoingroup.png",1,1000000);
+			local test1 = tapimg("buttonjoingroup.png",1,1000000);
 			usleep(2000000)
-			if (result == 1) then
+			if (test1 == 1) then
 				usleep(200000)
 				if(sl == sldathamgia) then return end
 				local checkAnswer = checkImg("answerGroup.png")
@@ -1278,24 +1270,12 @@ function JoinGroupByKeyword(sl,keyword)
 					end
 				tapimg("submitjoingroup.png",1,1000)
 				sldathamgia = sldathamgia + 1
-				usleep(1000000)
-				tap(32,90) -- tap nut back	
-				keoxuong(16000)
+				usleep(1000000)	
 				end
 				sldathamgia = sldathamgia + 1
-				usleep(1000000)
-				tap(32,90) -- tap nut back
-				keoxuong(16000)		
-			else
-			toast("Ko tìm thấy nút join hoặc đã join",3)
-			tap(32,90) -- tap nut back
-			keoxuong(15000)	
+				usleep(1000000)		
 			end
-		else
-		keoxuong(15000)	
 		end
-		keoxuong(15000)
-	end
 	until (sldathamgia > sl)
 
 end
@@ -1454,13 +1434,8 @@ function checkgroup(noidungchiase)
 			 toadochuQy2 = 950
 			end	
 			local a = splitString(toadofindgroup,"|")
-			if a ~= nil then
 			toadokinhx1 = tonumber(a[1]) + 15
 			toadokinhy1 = tonumber(a[2]) + 40
-			else
-				toast("không tìm thấy nút tìm kím,bị khóa hoặc lổi")
-				return
-			end
 			::back::
 			local findgroup = FindGroup(toadokinhx1,toadokinhy1,toadochuQx2,toadochuQy2)
 			usleep(500000)
@@ -1507,26 +1482,6 @@ function checkgroup(noidungchiase)
 				usleep(3500000)
 	end
 end
-		function tapimgMorGroup(imgList, sl, time)
-		  local tapped = false  -- Biến kiểm tra xem đã tap hay chưa
-		  
-		  for i, imageName in ipairs(imgList) do
-		    local imagePath = "/var/mobile/Library/AutoTouch/Scripts/facebook/img/maugroup/" .. imageName
-		    local img = findImage(imagePath, sl, 0.99, nil)
-		    
-		    for j, v in pairs(img) do
-		      tap(v[1], v[2])
-		      usleep(time)
-		      tapped = true  -- Đánh dấu là đã tap
-		    end
-		  end
-		  
-		  if tapped then
-		    return 1  -- Trả về 1 nếu đã tap ít nhất một hình
-		  else
-		    return 0  -- Trả về 0 nếu không tap hình nào
-		  end
-		end
 --[[tapimg("join.png",1,10000)
 stop()--]]
 --[[tuongtacIDPage(117540492278654,10, 1,"HIHI",1,1,2,1,"<3 <3 <3")
@@ -1535,6 +1490,8 @@ local a =  getColor(49,673)
 
 alert(a)
 stop()--]]--]]
+--[[local a = getColor(50,812)
+alert (a)--]]
 --- Kiểm tra dừng tools --
 ::startcheckstop2::
 sttcheck = 0
