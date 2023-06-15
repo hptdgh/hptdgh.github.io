@@ -1,4 +1,4 @@
--- Version:1.266
+-- Version:1.267
 local key = getSN();
 local sever = 'https://autofbios.app/api'
 function sleepWithToast(x,mess) -- nghỉ có hiện thông báo
@@ -368,7 +368,7 @@ function tuongtacIDPage(ID,slvuot, sllike,noidungcmt_tuongtacpage,tongsocmt_tuon
 		keoxuong(9000)
 		usleep(1000000)
 		if (like ~= sllike) then
-			local test1 = tapimglike("likepostpage.jpg", 1, 1000000)
+			local test1 = tapimg("likepostpage.jpg", 1, 1000000)
 			if (test1 == 1) then
 				like = like + 1
 			end
