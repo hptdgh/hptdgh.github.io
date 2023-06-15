@@ -1,4 +1,4 @@
--- Version:1.24
+-- Version:1.25
 local key = getSN();
 local sever = 'https://autofbios.app/api'
 function sleepWithToast(x,mess) -- nghỉ có hiện thông báo
@@ -1519,7 +1519,7 @@ local isStop = ""
 --- END Kiểm tra dừng tools --
 ::hihi::
 local sttacc =  GetSTTAcc(sever,key)
-local totalacc = getToalFromSever(sever,key)
+local totalacc = getTotalFromServer(sever,key)
 tol = totalacc + 1
 if(sttacc < tol) then
 							check3g()
