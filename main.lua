@@ -1,4 +1,4 @@
--- Version:1.26
+-- Version:1.266
 local key = getSN();
 local sever = 'https://autofbios.app/api'
 function sleepWithToast(x,mess) -- nghỉ có hiện thông báo
