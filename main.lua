@@ -1,4 +1,4 @@
--- Version:1.268
+-- Version:1.269
 local key = getSN();
 local sever = 'https://autofbios.app/api'
 function sleepWithToast(x,mess) -- nghỉ có hiện thông báo
@@ -1422,6 +1422,14 @@ function checkgroup(noidungchiase)
 			end
 			local solancheck = 0
 			local toadofindgroup = FindToaDoIMG("findgrshare.png")
+			if toadofindgroup ~= nil then
+			local a = splitString(toadofindgroup, "|")
+			toadokinhx1 = tonumber(a[1]) + 15
+			toadokinhy1 = tonumber(a[2]) + 40
+			else
+			toadokinhx1 = 55
+			toadokinhy1 = 502
+			end
 			local toadochuQ = FindToaDoIMG("q_group.png")
 			local toadochuQx2
 			local toadochuQy2
@@ -1433,9 +1441,6 @@ function checkgroup(noidungchiase)
 			 toadochuQx2 = 950
 			 toadochuQy2 = 950
 			end	
-			local a = splitString(toadofindgroup,"|")
-			toadokinhx1 = tonumber(a[1]) + 15
-			toadokinhy1 = tonumber(a[2]) + 40
 			::back::
 			local findgroup = FindGroup(toadokinhx1,toadokinhy1,toadochuQx2,toadochuQy2)
 			usleep(500000)
