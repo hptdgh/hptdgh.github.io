@@ -1,4 +1,4 @@
--- Version:1.267
+-- Version:1.268
 local key = getSN();
 local sever = 'https://autofbios.app/api'
 function sleepWithToast(x,mess) -- nghỉ có hiện thông báo
@@ -1412,7 +1412,7 @@ function checkgroup(noidungchiase)
 	usleep(1000000)
 	tapimg('buttonsharetoagroup.png',1,10000)
 	usleep(2000000)
-	sleepWithToast(1500,"Đang Get List Group")
+	sleepWithToast(2000,"Đang Get List Group")
 	local checkGroup = getColor(49,870);
 
 		if (checkGroup ~= 16777215) then
