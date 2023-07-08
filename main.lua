@@ -1,4 +1,4 @@
--- Version:1.269
+-- Version:1.27
 local key = getSN();
 local sever = 'https://autofbios.app/api'
 function sleepWithToast(x,mess) -- nghỉ có hiện thông báo
@@ -1084,13 +1084,24 @@ function GetSTTAcc(sever,key)
 		goto back
 	end
 end
-function UpdateSttAcc(sever,key,sttacc)
-	UPdateSTT = HTTPGet({ContentType = "application/json"},sever.."/sttacc.php?key="..key.."&action=UPDATE&sttacc="..sttacc)
+function UpdateSttAcc(sever, key, sttacc)
+	while true do
+		local UPdateSTT = HTTPGet({ContentType = "application/json"}, sever.."/sttacc.php?key="..key.."&action=UPDATE&sttacc="..sttacc)
 		if UPdateSTT ~= nil then
-			local json = require"json"
-			status = json.decode(UPdateSTT)["status"]
-			return status
+			local json = require "json"
+			local decodedData = json.decode(UPdateSTT)
+			if type(decodedData) == "table" then
+				local status = decodedData["status"]
+				if status ~= nil then
+					return status
+				end
+			end
 		end
+		-- Nếu không nhận được kết quả status, chờ một thời gian trước khi gọi lại hàm
+		-- Có thể thay đổi thời gian chờ tùy theo yêu cầu của bạn
+		local waitTime = 1 -- Đợi 1 giây trước khi gọi lại hàm
+		os.execute("sleep " .. waitTime)
+	end
 end
 function GetListAcc(sever,key,sttacc)
 	GetListAcc = HTTPGet({ContentType = "application/json"},sever.."/getlistacc.php?key="..key.."&action=getlist&update=NONE&number="..sttacc)
