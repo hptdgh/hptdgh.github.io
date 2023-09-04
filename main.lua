@@ -40,18 +40,18 @@ function ChangeIPvia3G() -- bật tắt chế độ máy bay
 	sleepWithToast(4000,"Wait Changging Ip 3g ")
 end
 function check3g()
-	f = assert(io.popen("curl api.viphpt.xyz/api/checkip.php"))
+	f = assert(io.popen("curl autofbios.app/api/checkip.php"))
 	ip = f:read("all")
 	if (string.find(ip, ".") == nil and string.find(ip, ":") == nil) then
 		io.popen("activator send switch-off.com.a3tweaks.switch.airplane-mode")
 		repeat
 			toast("Chờ internet ")
-			f = assert(io.popen("curl api.viphpt.xyz/api/checkip.php"))
+			f = assert(io.popen("curl autofbios.app/api/checkip.php"))
 			ip = f:read("all")
 			usleep(500000)
 		until(string.find(ip, ".") ~= nil or string.find(ip, ":") ~= nil)
 	end
-	f = assert(io.popen("curl api.viphpt.xyz/api/checkip.php"))
+	f = assert(io.popen("curl autofbios.app/api/checkip.php"))
 	ip = f:read("all")
 	if (string.find(ip, "HTML") ~= nil) then
 		i = 1
@@ -60,13 +60,13 @@ function check3g()
 			usleep(2000000)
 			io.popen("activator send switch-off.com.a3tweaks.switch.airplane-mode")
 			usleep(2000000)
-			f = assert(io.popen("curl api.viphpt.xyz/api/checkip.php"))
+			f = assert(io.popen("curl autofbios.app/api/checkip.php"))
 			ip = f:read("all")
 			if (string.find(ip, ".") == nil and string.find(ip, ":") == nil) then
 				io.popen("activator send switch-off.com.a3tweaks.switch.airplane-mode")
 				repeat
 					toast("Chờ internet ")
-					f = assert(io.popen("curl api.viphpt.xyz/api/checkip.php"))
+					f = assert(io.popen("curl autofbios.app/api/checkip.php"))
 					ip = f:read("all")
 					usleep(500000)
 				until(string.find(ip, ".") ~= nil or string.find(ip, ":") ~= nil)
@@ -74,7 +74,7 @@ function check3g()
 			j = 1
 			repeat
 				toast("Chờ internet "..j)
-				f = assert(io.popen("curl api.viphpt.xyz/api/checkip.php"))
+				f = assert(io.popen("curl autofbios.app/api/checkip.php"))
 				ip = f:read("all")
 				if (string.find(ip, "HTML") == nil) then
 					return
