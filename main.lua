@@ -1,4 +1,4 @@
--- Version:1.3
+-- Version:1.31
 local key = getSN();
 local sever = 'https://autofbios.app/api'
 function sleepWithToast(x,mess) -- nghỉ có hiện thông báo
@@ -39,19 +39,19 @@ function ChangeIPvia3G() -- bật tắt chế độ máy bay
 	io.popen("activator send switch-off.com.a3tweaks.switch.airplane-mode")
 	sleepWithToast(4000,"Wait Changging Ip 3g ")
 end
-function check3g()
-	f = assert(io.popen("curl autofbios.app/api/checkip.php"))
+function check3gg()
+	f = assert(io.popen("curl https://autofbios.app/api/checkip.php"))
 	ip = f:read("all")
 	if (string.find(ip, ".") == nil and string.find(ip, ":") == nil) then
 		io.popen("activator send switch-off.com.a3tweaks.switch.airplane-mode")
 		repeat
 			toast("Chờ internet ")
-			f = assert(io.popen("curl autofbios.app/api/checkip.php"))
+			f = assert(io.popen("curl https://autofbios.app/api/checkip.php"))
 			ip = f:read("all")
 			usleep(500000)
 		until(string.find(ip, ".") ~= nil or string.find(ip, ":") ~= nil)
 	end
-	f = assert(io.popen("curl autofbios.app/api/checkip.php"))
+	f = assert(io.popen("curl https://autofbios.app/api/checkip.php"))
 	ip = f:read("all")
 	if (string.find(ip, "HTML") ~= nil) then
 		i = 1
@@ -60,13 +60,13 @@ function check3g()
 			usleep(2000000)
 			io.popen("activator send switch-off.com.a3tweaks.switch.airplane-mode")
 			usleep(2000000)
-			f = assert(io.popen("curl autofbios.app/api/checkip.php"))
+			f = assert(io.popen("curl https://autofbios.app/api/checkip.php"))
 			ip = f:read("all")
 			if (string.find(ip, ".") == nil and string.find(ip, ":") == nil) then
 				io.popen("activator send switch-off.com.a3tweaks.switch.airplane-mode")
 				repeat
 					toast("Chờ internet ")
-					f = assert(io.popen("curl autofbios.app/api/checkip.php"))
+					f = assert(io.popen("curl https://autofbios.app/api/checkip.php"))
 					ip = f:read("all")
 					usleep(500000)
 				until(string.find(ip, ".") ~= nil or string.find(ip, ":") ~= nil)
@@ -74,7 +74,7 @@ function check3g()
 			j = 1
 			repeat
 				toast("Chờ internet "..j)
-				f = assert(io.popen("curl autofbios.app/api/checkip.php"))
+				f = assert(io.popen("curl https://autofbios.app/api/checkip.php"))
 				ip = f:read("all")
 				if (string.find(ip, "HTML") == nil) then
 					return
@@ -90,6 +90,9 @@ function check3g()
 			end
 		until(string.find(ip, "HTML") == nil)
 	end
+end
+function check3g()
+	sleepWithToast(1000,"check 3g")
 end
 ------
 function findButtonLike(time) -- tìm và nhấn nút like
@@ -1084,24 +1087,13 @@ function GetSTTAcc(sever,key)
 		goto back
 	end
 end
-function UpdateSttAcc(sever, key, sttacc)
-	while true do
-		local UPdateSTT = HTTPGet({ContentType = "application/json"}, sever.."/sttacc.php?key="..key.."&action=UPDATE&sttacc="..sttacc)
+function UpdateSttAcc(sever,key,sttacc)
+	UPdateSTT = HTTPGet({ContentType = "application/json"},sever.."/sttacc.php?key="..key.."&action=UPDATE&sttacc="..sttacc)
 		if UPdateSTT ~= nil then
-			local json = require "json"
-			local decodedData = json.decode(UPdateSTT)
-			if type(decodedData) == "table" then
-				local status = decodedData["status"]
-				if status ~= nil then
-					return status
-				end
-			end
+			local json = require"json"
+			status = json.decode(UPdateSTT)["status"]
+			return status
 		end
-		-- Nếu không nhận được kết quả status, chờ một thời gian trước khi gọi lại hàm
-		-- Có thể thay đổi thời gian chờ tùy theo yêu cầu của bạn
-		local waitTime = 1 -- Đợi 1 giây trước khi gọi lại hàm
-		os.execute("sleep " .. waitTime)
-	end
 end
 function GetListAcc(sever,key,sttacc)
 	GetListAcc = HTTPGet({ContentType = "application/json"},sever.."/getlistacc.php?key="..key.."&action=getlist&update=NONE&number="..sttacc)
@@ -1527,7 +1519,7 @@ local isStop = ""
 			if(sttcheck == 3) then 
 				ChangeIPvia3G()
 				usleep(1000000)
-				check3g()
+				--check3g()
 				goto startcheckstop2
 			end
 		goto startcheckstop
@@ -1538,7 +1530,7 @@ local sttacc =  GetSTTAcc(sever,key)
 local totalacc = getTotalFromServer(sever,key)
 tol = totalacc + 1
 if(sttacc < tol) then
-							check3g()
+							--check3g()
 							sleepWithToast(1500,"Đang tương tác "..sttacc.."/"..totalacc.." Acc ✅")
 									GetListAcc = HTTPGet({ContentType = "application/json"},sever.."/getlistacc.php?key="..key.."&action=getlist&update=NONE&number="..sttacc)
 									if GetListAcc ~= nil then
